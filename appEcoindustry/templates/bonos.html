@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Bonificaciones</title>
+    <meta charset="UTF-8">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    {% load static %}
+    <link rel="icon" href="{% static 'img/logo.png' %}" type="image/png">
+</head>
+
+<body>
+
+
+    <nav>
+        <div class="nav-wrapper" style="background-color: #363636;">
+            <ul id="nav-mobile" class="right hide-on-med-and-down">
+                {% if name %}
+                <li><a href="/inicio/{{name}}">Inicio</a></li>
+                <li><a class="modal-trigger" href="#modal2">{{name}}</a></li>
+                {% else %}
+                <li><a href="/">Inicio</a></li>
+                {% endif %}
+            </ul>
+        </div>
+    </nav>
+
+
+    <!-- Modal Structure -->
+    <div id="modal2" class="modal">
+        <div class="modal-content center">
+            <h6>Tu puntaje</h6>
+            <p>Tienes: {{cantidad}} Puntos</p>
+        </div>
+        </form>
+    </div>
+
+    <div id="modal3" class="modal">
+        <div class="modal-content center">
+            <h5>Buena elección</h5>
+            <p>Podrás recoger tu bien en nuestras instalaciones. ¡Te esperamos!</p>
+            <p>Tu puntaje actual: 3000</p>
+        </div>
+        </form>
+    </div>
+
+    <div class="row">
+        {%for bonificacion in bono%}
+        {% if cantidad >= bonificacion.valor %}
+        <div class="col s12 m3">
+            <div class="card">
+                <div class="card-image">
+                    <img src="{{bonificacion.imagen}}">
+                    <form action="/redimir/{{name}}/{{bonificacion.valor}}" method="POST" onsubmit="return openmodal()">
+                        {% csrf_token %}
+                        {% if name %}
+                        <button id="submit"
+                            class="btn-floating halfway-fab waves-effect waves-light red modal-trigger"><i
+                                class="material-icons">add</i></button>
+                        {% else %}
+                        <button onclick ="return openmodal2()"
+                            class="btn-floating halfway-fab waves-effect waves-light red modal-trigger"><i
+                                class="material-icons">add</i></button>
+                        {% endif %}
+                    </form>
+                </div>
+                <div class="card-content">
+                    <p>{{bonificacion.nombre}}</p>
+                    <p>Valor: {{bonificacion.valor}} Puntos</p>
+                </div>
+            </div>
+        </div>
+        {% else %}
+        <div class="col s12 m3">
+            <div class="card">
+                <div class="card-image">
+                    <img src="{{bonificacion.imagen}}">
+                        {% if name %}
+                        <button onclick ="return openmodal1()"
+                            class="btn-floating halfway-fab waves-effect waves-light red modal-trigger"><i
+                                class="material-icons">add</i></button>
+                        {% else %}
+                        <button onclick ="return openmodal2()"
+                            class="btn-floating halfway-fab waves-effect waves-light red modal-trigger"><i
+                                class="material-icons">add</i></button>
+                        {% endif %}
+                </div>
+                <div class="card-content">
+                    <p>{{bonificacion.nombre}}</p>
+                    <p>Valor: {{bonificacion.valor}} Puntos</p>
+                </div>
+            </div>
+        </div>
+        {% endif %}
+        {% endfor %}
+    </div>
+
+    <script>  document.addEventListener('DOMContentLoaded', function () {
+            var elems = document.querySelectorAll('.carousel');
+            var instances = M.Carousel.init(elems);
+        });
+
+        // Or with jQuery
+
+        $(document).ready(function () {
+            $('.carousel').carousel();
+        });
+    </script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            var elems = document.querySelectorAll('.modal');
+            var instances = M.Modal.init(elems);
+        });
+
+        // Or with jQuery
+
+        $(document).ready(function () {
+            $('.modal').modal();
+        });
+    </script>
+    <script>  document.addEventListener('DOMContentLoaded', function () {
+            var elems = document.querySelectorAll('select');
+            var instances = M.FormSelect.init(elems);
+        });
+
+        // Or with jQuery
+
+        $(document).ready(function () {
+            $('select').formSelect();
+        });</script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+    <script>
+        function openmodal() {
+            alert("Buena elección\nPodrás recoger tu bonificación en nuestras instalaciones. ¡Te esperamos!")
+        }
+        function openmodal1() {
+            alert("No tienes suficientes puntos\nRedime más materiales para poder canjear.")
+        }
+        function openmodal2() {
+            alert("Inicia sesión para reclamar los bonos.")
+        }
+    </script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            var elems = document.querySelectorAll('.dropdown-trigger');
+            var instances = M.Dropdown.init(elems);
+        });
+    </script>
+</body>
+
+</html>
