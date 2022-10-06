@@ -1,6 +1,6 @@
 from django.contrib import admin
 from django.urls import path
-from appEcoindustry.views import comentario, inicio, iniciop, bonos,bonos1, intercambio, redimir, registro, comentario, agenda, verCatalogo, signin, administrador, signout
+from appEcoindustry.views import comentario, inicio, iniciop, bonos,bonos1, intercambio, redimir, registro, comentario, agenda, signin, administrador, signout, editar
 from django.conf import settings
 from django.conf.urls.static import static
 
@@ -16,9 +16,9 @@ urlpatterns = [
     path('comentario/', comentario),
     path('agenda/', agenda),
     path('redimir/<name>/<int:puntosbono>', redimir),
-    path('verCatalogo/', verCatalogo),
     path('signin/', signin),
     path('signout/', signout),
+    path('editar/', editar),
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root = settings.MEDIA_ROOT)

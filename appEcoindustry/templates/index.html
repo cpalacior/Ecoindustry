@@ -21,10 +21,10 @@
                 {% if name %}
                 <li><a class="modal-trigger" href="#modal1">Intercambio</a></li>
                 <li><a class="modal-trigger" href="#modal4">Agenda</a></li>
-                <li><a class="modal-trigger" href="#modal6">Bonificaciones</a></li>
+                <li><a href="/bonos/{{name}}">Bonificaciones</a></li>
                 <li><a class='dropdown-trigger' data-target='dropdown1'>{{name}}</a></li>
                 {% else %}
-                <li><a href="/verCatalogo/">Catálogo</a></li>
+                <li><a href="/bonos1/">Catálogo</a></li>
                 <li><a href="/signin/">Ingresar</a></li>
                 {% endif %}
             </ul>
@@ -163,7 +163,7 @@
         <div class="modal-content">
             <div class="container">
                 <div class="row">
-                    <form action="/verCatalogo/" method="POST">
+                    <form action="/verCatalogo/" method="POST"></form>
                         {% csrf_token %}
                         <div class="row">
                             <div class="input-field col s12">

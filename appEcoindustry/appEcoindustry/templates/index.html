@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Inicio</title>
+    <meta charset="UTF-8">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    {% load static %}
+    <link rel="icon" href="{% static 'img/logo.png' %}" type="image/png">
+</head>
+
+<body>
+
+
+    <nav>
+        <div class="nav-wrapper" style="background-color: #363636;">
+            <ul id="nav-mobile" class="right hide-on-med-and-down">
+                <li><a href="/inicio/">Inicio</a></li>
+                {% if name %}
+                <li><a class="modal-trigger" href="#modal1">Intercambio</a></li>
+                <li><a class="modal-trigger" href="#modal4">Agenda</a></li>
+                <li><a href="/bonos/{{name}}">Bonificaciones</a></li>
+                <li><a class='dropdown-trigger' data-target='dropdown1'>{{name}}</a></li>
+                {% else %}
+                <li><a href="/bonos1/">Catálogo</a></li>
+                <li><a href="/signin/">Ingresar</a></li>
+                {% endif %}
+            </ul>
+        </div>
+    </nav>
+    <!-- Dropdown Structure -->
+    <ul id='dropdown1' class='dropdown-content'>
+        <li><a href="/signout/">Cerrar Sesión</a></li>
+    </ul>
+
+    <div class="parallax-container">
+        <div class="parallax"><img src="https://i.postimg.cc/HL7LF7Zh/Dise-o-sin-t-tulo.png">
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="section">
+            <div class="row">
+                <div class="col s12 m4">
+                    <div class="icon-block">
+                        <h2 class="center"><i class="medium material-icons" style="color:#2d572c;">grade</i></h2>
+                        <h5 class="center">Propósito de EcoIndustry</h5>
+
+                        <p class="center">
+                            Nuestro principal propósito es brindar una alternativa de clasificación de materiales
+                            reciclables para las pequeñas y
+                            medianas empresas del Valle de Aburrá, y a su vez conozcan como aprovecharlos y así obtener
+                            un incentivo por ser parte
+                            del proceso.</p>
+                    </div>
+                </div>
+
+                <div class="col s12 m4">
+                    <div class="icon-block">
+                        <h2 class="center"><i class="medium material-icons" style="color:#2d572c;">person</i></h2>
+                        <h5 class="center">Importancia de reciclar</h5>
+
+                        <p class="center">Promueve la conservación de los recursos naturales como el agua, el suelo, los
+                            minerales, y evita la
+                            contaminación que se produce durante su extracción y elaboración de productos. Además reduce
+                            la emisión de gases
+                            contaminantes.</p>
+                    </div>
+                </div>
+
+                <div class="col s12 m4">
+                    <div class="icon-block">
+                        <h2 class="center"><i class="medium material-icons" style="color:#2d572c;">loyalty</i></h2>
+                        <h5 class="center">Materiales reciclables</h5>
+
+                        <p class="center">Papel: Periódicos, revistas y cajas de cartón. Metal: Latas, recipientes
+                            metálicos y papel de aluminio. Plástico: Botellas, bolsas de compras, recipientes
+                            y envoltorios plásticos. 
+                            Vidrio: Botellas, frascos, recipientes y materiales compuestos de vidrio.</p>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+
+    <!-- Modal Structure -->
+    <div id="modal1" class="modal">
+        <div class="modal-content">
+            <div class="container">
+                <div class="row">
+                    <form class="col s12" action="/intercambio/{{name}}" method="POST" onsubmit="return openmodal3()">
+                        {% csrf_token %}
+                        <div class="row">
+                            <div class="input-field col s12">
+                                <i class="material-icons prefix">account_circle</i>
+                                <select id="select" name="nombreEmpresa" autofocus>
+                                    {%for user in usuario%}
+                                    <option>{{user.nombreEmpresa}}</option>
+                                    {% endfor %}
+                                </select>
+                                <label>Nombre de la empresa</label>
+                            </div>
+                            <div class="input-field col s12">
+                                <i class="material-icons prefix">favorite</i>
+                                <select id="select" name="tipoMaterial" autofocus>
+                                    <option value="1">Plástico</option>
+                                    <option value="2">Vidrio</option>
+                                    <option value="3">Cartón - Papel</option>
+                                    <option value="4">Metal</option>
+                                </select>
+                                <label>Tipo de Material</label>
+                            </div>
+                            <div class="input-field col s12">
+                                <i class="material-icons prefix">insert_comment</i>
+                                <input id="icon_prefix" type="number" class="validate" name="peso" autofocus>
+                                <label for="icon_prefix">Peso en kilogramos</label>
+                            </div>
+                            <center><button id="submit" class="modal-close btn"
+                                    style="background-color:#2d572c;">Enviar</button></center>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div id="modal4" class="modal">
+        <div class="modal-content">
+            <div class="container">
+                <div class="row">
+                    <form action="/agenda/" method="POST" onsubmit="return openmodal1()">
+                        {% csrf_token %}
+                        <div class="row">
+                            <div class="input-field col s12">
+                                <i class="material-icons prefix">account_circle</i>
+                                <select id="select" name="nombreEmpresa" autofocus>
+                                    {%for user in usuario%}
+                                    <option>{{user.nombreEmpresa}}</option>
+                                    {% endfor %}
+                                </select>
+                                <label>Nombre de la empresa</label>
+                            </div>
+                            <div class="input-field col s12">
+                                <i class="material-icons prefix">event</i>
+                                <input type="date" name="fecha">
+                                <label for="icon_prefix">Fecha de recolección</label>
+                            </div>
+                            <center><button id="submit" class="modal-close btn"
+                                    style="background-color:#2d572c;">Solicitar</button></center>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="modal6" class="modal">
+        <div class="modal-content">
+            <div class="container">
+                <div class="row">
+                    <form action="/verCatalogo/" method="POST"></form>
+                        {% csrf_token %}
+                        <div class="row">
+                            <div class="input-field col s12">
+                                <i class="material-icons prefix">account_circle</i>
+                                <select id="select" name="nombreEmpresa" autofocus>
+                                    {%for user in usuario%}
+                                    <option>{{user.nombreEmpresa}}</option>
+                                    {% endfor %}
+                                </select>
+                                <label>Selecciona la empresa:</label>
+                            </div>
+                            <center><button href="/bonos/{{name}}" class="modal-close btn"
+                                    style="background-color:#2d572c;">Ver catálogo</button></center>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <center>
+        <div class="container card-panel" style="width: 95%;">
+            <div class="section black-text">
+                <h4 class="black-text">¡Queremos conocer tu opinión!</h4>
+                <br>
+                <p>
+                    Para EcoIndustry es de gran importancia conocer la apreciación que tienes sobre el proceso de
+                    entrega,
+                    transformación, y redención. Así que déjanos tu experiencia, queja u/y opinión con el fin de
+                    contribuir
+                    al mejoramiento y crecimiento de nuestra empresa.
+                </p>
+                <br>
+                <div class="row">
+                    <form action="/comentario/" method="POST" onsubmit="return openmodal()">
+                        {% csrf_token %}
+                        <div class="input-field col s12" style="display: flex">
+                            <i class="material-icons prefix">account_circle</i>
+                            <select id="select" name="nombreEmpresa" autofocus>
+                                {%for user in usuario%}
+                                <option>{{user.nombreEmpresa}}</option>
+                                {% endfor %}
+                            </select>
+                            <label>Nombre de la empresa</label>
+                        </div>
+                        <div class="input-field col s12">
+                            <i class="material-icons prefix">comment</i>
+                            <input id="icon_prefix" type="text" name="Comentario" class="validate" required>
+                            <label>Comentarios y sugerencias:</label>
+                        </div>
+                        <div class="input-field col s12">
+                            <button type="submit" class="waves-effect waves-light btn"
+                                style="background-color:#2d572c;">Enviar</button>
+                        </div>
+                </div>
+            </div>
+            </form>
+        </div>
+
+        <footer class="page-footer" style="background-color: #363636;">
+            <div class="container">
+              <div class="row">
+                <div class="col l6 s12">
+                  <h5 class="white-text">EcoIndustry</h5>
+                  <p class="grey-text text-lighten-4">You can use rows and columns here to organize your footer content.</p>
+                </div>
+                <div class="col l4 offset-l2 s12">
+                  <h5 class="white-text">Links</h5>
+                  <ul>
+                    <li><a class="grey-text text-lighten-3" href="#!">Link 1</a></li>
+                    <li><a class="grey-text text-lighten-3" href="#!">Link 2</a></li>
+                    <li><a class="grey-text text-lighten-3" href="#!">Link 3</a></li>
+                    <li><a class="grey-text text-lighten-3" href="#!">Link 4</a></li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+            <div class="footer-copyright">
+              <div class="container">
+              © 2022 Copyright EcoIndustry
+              </div>
+            </div>
+          </footer>
+              
+
+
+    </center>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+    <script>
+        function openmodal() {
+            alert("Tu comentario fue enviado con éxito.\n¡Gracias por ayudarnos a mejorar!")
+        }
+    </script>
+    <script>
+        function openmodal1() {
+            alert("Tu solicitud está en proceso.\nNos comunicaremos contigo para indicarte los pasos a seguir.");
+        }
+    </script>
+    <script>
+        function openmodal3() {
+            alert("Te agradecemos por intercambiar tus materiales reciclables.\n Ingresa al catálogo para redimir tus puntos");
+        }
+    </script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            var elems = document.querySelectorAll('.parallax');
+            var instances = M.Parallax.init(elems);
+        });
+
+        // Or with jQuery
+
+        $(document).ready(function () {
+            $('.parallax').parallax();
+        });
+    </script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            var elems = document.querySelectorAll('.dropdown-trigger');
+            var instances = M.Dropdown.init(elems);
+            });
+        
+            // Or with jQuery
+        
+            $('.dropdown-trigger').dropdown();
+    </script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            var elems = document.querySelectorAll('.modal');
+            var instances = M.Modal.init(elems);
+        });
+
+        // Or with jQuery
+
+        $(document).ready(function () {
+            $('.modal').modal();
+        });
+
+    </script>
+    <script>  document.addEventListener('DOMContentLoaded', function () {
+            var elems = document.querySelectorAll('select');
+            var instances = M.FormSelect.init(elems);
+        });
+
+        // Or with jQuery
+
+        $(document).ready(function () {
+            $('select').formSelect();
+        });</script>
+</body>
+
+</html>

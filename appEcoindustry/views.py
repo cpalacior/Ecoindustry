@@ -32,10 +32,10 @@ def bonos1(request):
     bonificacion=Bonificacion.objects.all()
     return render(request, 'bonos.html', {"bono": bonificacion})
 
-def verCatalogo(request):
-    if request.method == 'POST':
-        return redirect('/bonos/%s' %(request.POST.dict()["nombreEmpresa"])) 
-    return redirect('/bonos1/')
+#def verCatalogo(request):
+#    if request.method == 'POST':
+#        return redirect('/bonos/%s' %(request.POST.dict()["nombreEmpresa"])) 
+#    return redirect('/bonos1/')
 
 
 def intercambio(request, name):
@@ -130,4 +130,11 @@ def signout(request):
     return redirect('/')
 
 def administrador(request):
-    return render(request, 'admin.html')
+    empresas = Usuario.objects.filter(idtipousuario_id = 1)
+    return render(request, 'admin.html', {"empresas":empresas})
+
+def editar(request):
+    formulario = request.POST.dict()
+    print(formulario)
+    
+    return redirect("/administrador/")
