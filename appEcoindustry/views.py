@@ -135,6 +135,10 @@ def administrador(request):
 
 def editar(request):
     formulario = request.POST.dict()
-    print(formulario)
-    
+    print(formulario)   
+    return redirect("/administrador/")
+
+def eliminar(request, name):
+    empresa = Usuario.objects.filter(nombreEmpresa = name)
+    empresa.delete()
     return redirect("/administrador/")
